@@ -1,0 +1,46 @@
+<!-- <h1>Pages#index</h1>
+<p>Find me in app/views/pages/index.html.erb</p>
+-->
+<div id="demo"> </div>
+
+<ul>
+	<li> <%= link_to 'direccion',pages_direccion_path %></li>
+</ul>
+
+<div id="latitud"></div>
+<div id="longitud"></div>
+
+<button onclick="getLocation()">Try It</button>
+
+<div><p>la direccion corresponde a :<span id="direccion"></span></p> </div>
+
+<script>
+	var x = document.getElementById("latitud");
+	var y = document.getElementById("longitud");
+	function getLocation() {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(showPosition);
+		} else {
+			x.innerHTML = "Geolocation is not supported by this browser.";
+		}
+	}
+
+	function showPosition(position) {
+		x.innerHTML = "Latitude: " + position.coords.latitude;
+		y.innerHTML = "Longitude: " + position.coords.longitude;
+
+		$.ajax({
+			url: '<%= pages_direccion_path %>',
+			type: 'POST',
+			dataType: 'script',
+			data: {
+				latitude: position.coords.latitude,
+				longitude: position.coords.longitude
+			},
+		});
+
+
+	}
+
+
+</script>
